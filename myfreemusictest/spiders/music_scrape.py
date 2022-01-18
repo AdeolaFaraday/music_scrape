@@ -28,15 +28,6 @@ class MusicScrapeSpider(scrapy.Spider):
 
         time.sleep(3.5)
 
-        #  music_tiles = driver.find_elements_by_xpath(
-        #     "//a[@data-i18n='[title]clickToDownload']")
-
-        # for music_tile in music_tiles:
-        #     yield {
-        #         'result': music_tile.get_attribute('href')
-        #     }
-        # /a[@id='navi']
-
         music_tiles = driver.find_elements_by_xpath(
             "//li[@class='list-group-item']")
 
