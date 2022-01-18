@@ -16,7 +16,8 @@ class MusicScrapeSpider(scrapy.Spider):
         chrome_options = Options()
         chrome_options.add_argument('--headless')
         chrome_path = which("chromedriver")
-        driver = webdriver.Chrome(executable_path=chrome_path)
+        driver = webdriver.Chrome(
+            executable_path=chrome_path, options=chrome_options)
         driver.set_window_size(1920, 1080)
         driver.get("https://myfreemp3juices.cc/")
 
@@ -34,5 +35,6 @@ class MusicScrapeSpider(scrapy.Spider):
         for music_tile in music_tiles:
             yield {
                 'download_link': music_tile.find_element_by_xpath("./a[@title='Download']").get_attribute('href'),
-                'music_title': [music.text for music in music_tile.find_elements_by_xpath("./a[@id='navi']")]
+                'music_title': [music.text for music in music_tile.find_elements_by_xpath("./a[@id='navi']")],
+                'music_duration': music_tile.find_element_by_xpath("./div/a[@class='btn btn-primary btn-xs']").text
             }
