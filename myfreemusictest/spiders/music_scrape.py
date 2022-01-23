@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from shutil import which
+import os
 
 
 class MusicScrapeSpider(scrapy.Spider):
@@ -14,16 +15,19 @@ class MusicScrapeSpider(scrapy.Spider):
 
     def parse(self, response):
         chrome_options = Options()
+        chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_PATH")
         chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-sh-usage')
         chrome_path = which("chromedriver")
         driver = webdriver.Chrome(
-            executable_path=chrome_path, options=chrome_options)
+            executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
         driver.set_window_size(1920, 1080)
         driver.get("https://myfreemp3juices.cc/")
 
         search_input = driver.find_element_by_xpath("//input[@id='query']")
 
-        search_input.send_keys("assurance davido")
+        search_input.send_keys("burna boy dangote")
 
         search_input.send_keys(Keys.ENTER)
 
